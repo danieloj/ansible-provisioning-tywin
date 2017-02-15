@@ -1,0 +1,12 @@
+project_type: "python"
+project_name: test-fansible
+timezone: "Europe/Paris"
+port: 80
+hosts: all
+sudo: "true"
+apt_install: []
+
+roles:
+  - ubuntu-apt
+  - create-www-data-user
+  - ubuntu-python-nginx

@@ -38,6 +38,7 @@ FANSIBLE_YAML = '.fansible.yml'
 DEFAULT_SYMFONY_YAML = DIRECTORY_TYWIN_CONFIG+'/default.symfony.yml'
 DEFAULT_LARAVEL_YAML = DIRECTORY_TYWIN_CONFIG+'/default.laravel.yml'
 DEFAULT_NODEJS_YAML = DIRECTORY_TYWIN_CONFIG+'/default.nodejs.yml'
+DEFAULT_PYTHON_YAML = DIRECTORY_TYWIN_CONFIG+'/default.python.yml'
 
 #Configs
 TEMPLATE_ENVIRONMENT = Environment(
@@ -96,10 +97,14 @@ def project_type_finder():
     if os.path.exists('package.json'):
         return node_config_loader()
 
+    #Python projects
+    if os.path.exists('requirements.txt'):
+        return python_config_loader()
+
     return ask_project_type()
 
 def ask_project_type():
-    user_answer = raw_input("Is this a Symfony project (s), Laravel project (l) or a Node.js (n) project? [S/l/n] ?")
+    user_answer = raw_input("Is this a Symfony project (s), Laravel project (l), Node.js project (n) or Python project (p) [S/l/n/p]?")
     if user_answer == "s" or user_answer == "S" or user_answer == "" or user_answer == "y":
         print 'Symfony project'
         return read_file_and_return_dict(DEFAULT_SYMFONY_YAML)
@@ -112,7 +117,11 @@ def ask_project_type():
         print 'Laravel project'
         return read_file_and_return_dict(DEFAULT_LARAVEL_YAML)
 
-    print 'You can only choose between "s", "l" or "n"'
+    if user_answer == "p" or user_answer == "P":
+        print 'Python project'
+        return read_file_and_return_dict(DEFAULT_PYTHON_YAML)
+
+    print 'You can only choose between "s", "l", "n" or "p"'
 
     return ask_project_type()
 
@@ -164,6 +173,23 @@ def laravel_config_loader(composer_json):
     if 'name' in composer_json:
         project_config['project_name'] = composer_json['name']
     return project_config
+
+def python_config_loader():
+    # print 'NodeJs project detected...'
+    # project_config = read_file_and_return_dict(DEFAULT_PYTHON_YAML)
+    # requirements = read_file_and_return_dict('requirements.txt')
+    # if 'name' in package_json:
+    #     project_config['project_name'] = package_json['name']
+    # if 'dependencies' in package_json:
+    #     deps = package_json['dependencies']
+    #     if 'mongodb' in deps or 'loopback-connector-mongodb' in deps:
+    #         print "Database detected from package.json: mongodb"
+    #         project_config['roles'].append('ubuntu-mongodb')
+    #     if 'pg' in deps or 'loopback-connector-postgresql' in deps:
+    #         print "Database detected from package.json: postgresql"
+    #         project_config['roles'].append('ubuntu-postgresql')
+    #
+    # return project_config
 
 #Create directories
 def create_directories():
