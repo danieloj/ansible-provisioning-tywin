@@ -175,9 +175,9 @@ def laravel_config_loader(composer_json):
     return project_config
 
 def python_config_loader():
-    # print 'NodeJs project detected...'
-    # project_config = read_file_and_return_dict(DEFAULT_PYTHON_YAML)
-    # requirements = read_file_and_return_dict('requirements.txt')
+    print 'Python project detected...'
+    project_config = read_file_and_return_dict(DEFAULT_PYTHON_YAML)
+    requirements = read_file_and_return_dict('requirements.txt')
     # if 'name' in package_json:
     #     project_config['project_name'] = package_json['name']
     # if 'dependencies' in package_json:
@@ -188,8 +188,8 @@ def python_config_loader():
     #     if 'pg' in deps or 'loopback-connector-postgresql' in deps:
     #         print "Database detected from package.json: postgresql"
     #         project_config['roles'].append('ubuntu-postgresql')
-    #
-    # return project_config
+
+    return project_config
 
 #Create directories
 def create_directories():
